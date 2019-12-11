@@ -17,10 +17,13 @@ export default {
   },
   methods: {
     addTodo: function() {
-      console.log(this.newTodoItem);
-      // 저장하는 로직
-      localStorage.setItem(this.newTodoItem, this.newTodoItem);
-      this.clearInput();
+      // 저장하는 로직 // localStorage.setItem(key , value)
+      //JSON.stringify(obj) string으로 바꿔줌. 바꾸지 않으면 객체를 인식하지 못 함. 추적하기 위해 사용한다.
+      if (this.newTodoItem !== '') {
+        var obj = {completed: false, item: this.newTodoItem};
+        localStorage.setItem(this.newTodoItem, JSON.stringify(obj));
+        this.clearInput();
+      }
     },    
     clearInput: function() {
       // 초기화 로직      
