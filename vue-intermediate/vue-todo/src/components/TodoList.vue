@@ -1,7 +1,7 @@
 <template>
   <div>
     <ul>
-      <li v-for="(todoItem, index) in todoItems" v-bind:key="todoItem" class="shadow">
+      <li v-for="(todoItem, index) in propsdata" v-bind:key="index" class="shadow">
         <i class="checkBtn fas fa-check" :class="{checkBtnCompleted: todoItem.completed}" @click="toggleComplete(todoItem, index)"></i>
         <span :class="{textCompleted: todoItem.completed}">{{todoItem.item}}</span>
         <span class="removeBtn" @click="removeTodo(todoItem, index)">
@@ -14,35 +14,15 @@
 
 <script>
 export default {
-  data: function() {
-    return {
-      todoItems: []
-    }
-  },
+  props: ['propsdata'],
   methods: {
     removeTodo: function(todoItem, index) {
-      // localStorage.removeItem(key)
-      //this.todoItems.splice(start, deleteCount);
-      localStorage.removeItem(todoItem);
-      this.todoItems.splice(index, 1);
+      this.$emit('removeTodoItem', todoItem, index)
     },
-    toggleComplete: function(todoItem) {
-      todoItem.completed = !todoItem.completed;
-      localStorage.removeItem(todoItem.item);
-      localStorage.setItem(todoItem.item, JSON.stringify(todoItem));
+    toggleComplete: function(todoItem,index) {
+      this.$emit('toggleComplete', todoItem, index)
     }
   },
-  //localStorage.getItem(localStorage.key(i)); 가져오는 로직
-  //JSON.parse 객체로 돌린다. localStorage의 특성상 이렇게 하는 부분.
-  created: function() {
-    if (localStorage.length > 0) {
-      for (var i = 0; i < localStorage.length; i ++) {
-        if (localStorage.key(i) !== 'loglevel:webpack-dev-server'){
-          this.todoItems.push(JSON.parse(localStorage.getItem(localStorage.key(i))));
-        }
-      }
-    }
-  }
 }
 </script>
 
