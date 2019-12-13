@@ -54,8 +54,8 @@ export default {
       localStorage.setItem(todoItem.item, JSON.stringify(todoItem));
     },
     clearList: function() {
-      window.localStorage.clear();
-      this.todoItems = '';
+      localStorage.clear();
+      this.todoItems = [];
     }
   }
 }
