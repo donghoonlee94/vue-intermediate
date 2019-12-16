@@ -14,16 +14,16 @@ import TodoList from './components/TodoList.vue'
 import TodoFooter from './components/TodoFooter.vue'
 
 export default {
-  data: function() {
+  data() {
     return {
       todoItems : [],
     }
   },
   //localStorage.getItem(localStorage.key(i)); 가져오는 로직
   //JSON.parse 객체로 돌린다. localStorage의 특성상 이렇게 하는 부분.
-  created: function() {
+  created() {
     if (localStorage.length > 0) {
-      for (var i = 0; i < localStorage.length; i ++) {
+      for (let i = 0; i < localStorage.length; i ++) {
         if (localStorage.key(i) !== 'loglevel:webpack-dev-server'){
           this.todoItems.push(JSON.parse(localStorage.getItem(localStorage.key(i))));
         }
@@ -31,29 +31,29 @@ export default {
     }
   },  
   components: {
-    TodoHeader : TodoHeader,
-    TodoInput : TodoInput,
-    TodoList : TodoList,
-    TodoFooter : TodoFooter,
+    TodoHeader,
+    TodoInput,
+    TodoList,
+    TodoFooter,
   }, 
   methods: {
-    addOneItem: function(todoItem) {
-        var obj = {completed: false, item: todoItem};
+    addOneItem(todoItem) {
+        const obj = {completed: false, item: todoItem};
         localStorage.setItem(todoItem, JSON.stringify(obj));
         this.todoItems.push(obj);
     },
-    removeTodoItem: function(todoItem, index) {
+    removeTodoItem(todoItem, index) {
       // localStorage.removeItem(key)
       //this.todoItems.splice(start, deleteCount);      
       localStorage.removeItem(todoItem.item);
       this.todoItems.splice(index, 1);      
     },
-    toggleOneItem: function(todoItem, index) {
+    toggleOneItem(todoItem, index) {
       this.todoItems[index].completed = !this.todoItems[index].completed;
       localStorage.removeItem(todoItem.item);
       localStorage.setItem(todoItem.item, JSON.stringify(todoItem));
     },
-    clearList: function() {
+    clearList() {
       localStorage.clear();
       this.todoItems = [];
     }

@@ -17,18 +17,18 @@
 </template>
 
 <script>
-import modal from './common/modal.vue'
+import Modal from './common/modal.vue'
 
 /* eslint-disable no-console */
 export default {
-  data: function() {
+  data() {
     return {
       newTodoItem : "",
       showModal: false,
     }
   },
   methods: {
-    addTodo: function() {
+    addTodo() {
       // 저장하는 로직 // localStorage.setItem(key , value)
       //JSON.stringify(obj) string으로 바꿔줌. 바꾸지 않으면 객체를 인식하지 못 함. 추적하기 위해 사용한다.
       if (this.newTodoItem !== '') {
@@ -38,13 +38,13 @@ export default {
         this.showModal = !this.showModal
       }
     },    
-    clearInput: function() {
+    clearInput() {
       // 초기화 로직      
       this.newTodoItem = '';
     }
   },
   components: {
-    Modal: modal
+    Modal
   }
 }
 </script>
