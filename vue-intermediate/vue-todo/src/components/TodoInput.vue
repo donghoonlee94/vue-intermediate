@@ -32,7 +32,8 @@ export default {
       // 저장하는 로직 // localStorage.setItem(key , value)
       //JSON.stringify(obj) string으로 바꿔줌. 바꾸지 않으면 객체를 인식하지 못 함. 추적하기 위해 사용한다.
       if (this.newTodoItem !== '') {
-        this.$emit('addTodoItem', this.newTodoItem)
+        // this.$emit('addTodoItem', this.newTodoItem)
+        this.$store.commit('addOneItem', this.newTodoItem);
         this.clearInput();
       }else {
         this.showModal = !this.showModal
