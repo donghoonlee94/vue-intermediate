@@ -2,9 +2,9 @@
   <div>
     <transition-group name="list" tag="ul">
       <li v-for="(todoItem, index) in this.storedTodoItems" v-bind:key="index" class="shadow">
-        <i class="checkBtn fas fa-check" :class="{checkBtnCompleted: todoItem.completed}" @click="toggleComplete(todoItem, index)"></i>
+        <i class="checkBtn fas fa-check" :class="{checkBtnCompleted: todoItem.completed}" @click="toggleComplete({todoItem, index})"></i>
         <span :class="{textCompleted: todoItem.completed}">{{todoItem.item}}</span>
-        <span class="removeBtn" @click="removeTodo(todoItem, index)">
+        <span class="removeBtn" @click="removeTodo({todoItem, index})">
           <i class="fas fa-trash"></i>
         </span>
       </li>
@@ -13,18 +13,26 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapMutations } from 'vuex'
 
 export default {
   methods: {
-    removeTodo(todoItem, index) {
-      // this.$emit('removeTodoItem', todoItem, index)
-      this.$store.commit('removeTodoItem', {todoItem, index})
-    },
-    toggleComplete(todoItem,index) {
-      // this.$emit('toggleComplete', todoItem, index)
-      this.$store.commit('toggleOneItem', {todoItem, index})
-    }
+    // 컴포넌트에서 받는 메소드 : store에서 가져올 Mutations, 인자는 암묵적으로 주나 여러개인 경우 객체로 묶어야 함.
+    // 클릭하면 메소드를 발동시키면서 인자 값을 전달 받고, mapMutaions을 통해 store에 있는 mutations로 전달함.
+    // 배열로 표현할 수도 있으며, 메소드 이름과 store의 Mutations에 선언된 이름이 같을 경우 ...mapMutations([removeTodo,toggleComplete])로 가능. 객체도 가능.
+
+    ...mapMutations({
+      removeTodo : 'removeTodoItem',
+      toggleComplete : 'toggleOneItem',
+    }),
+    // removeTodo(todoItem, index) {
+    //   // this.$emit('removeTodoItem', todoItem, index)
+    //   this.$store.commit('removeTodoItem', {todoItem, index})
+    // },
+    // toggleComplete(todoItem,index) {
+    //   // this.$emit('toggleComplete', todoItem, index)
+    //   this.$store.commit('toggleOneItem', {todoItem, index})
+    // }
   },
   computed: {
     ...mapGetters(['storedTodoItems'])
